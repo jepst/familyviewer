@@ -1,4 +1,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-data/*
+data/birthdays.json
+data/config.json
+data/details*.json 
+structure.json
+
