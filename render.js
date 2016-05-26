@@ -55,6 +55,26 @@ var removeClass = function(node, className) {
     }
 };
 
+// https://developer.mozilla.org/pl/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+// workaround for old versions of Safari
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(searchString, position) {
+      var subjectString = this.toString();
+      if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+        position = subjectString.length;
+      }
+      position -= searchString.length;
+      var lastIndex = subjectString.indexOf(searchString, position);
+      return lastIndex !== -1 && lastIndex === position;
+  };
+}
+
 var java_hashcode = function(s){
     // http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
     var hash = 0;
@@ -670,7 +690,6 @@ var simpleLine = function(view, ax, ay, bx, by, width, color)
     view.context.moveTo(ax+view.scrollx,ay+view.scrolly);
     view.context.lineTo(bx+view.scrollx,by+view.scrolly);
     view.context.stroke();
-    view.context.closePath();
 }
 
 
@@ -693,7 +712,6 @@ var drawParentalLine = function(view, parent, child) {
     view.context.lineTo(parentx, horizy);
     view.context.lineTo(parentx, parenty);
     view.context.stroke();
-    view.context.closePath();
 }
 
 var NodeGroup = function(_nodes) {
@@ -1522,7 +1540,11 @@ var Tree = function(structure, person_id) {
             return layout.getTreeExtents();
         },
         lookupNodeById: function(personid) {
-            return layout.lookupNodeById(personid).getInteriorNodeById(personid);
+            var an = layout.lookupNodeById(personid);
+            if (an == null)
+                return null;
+            else
+                return an.getInteriorNodeById(personid);
         },
         hitTest : function(view, x,y) {
             for (var i=0; i<nodes.length; i++) {
@@ -1738,6 +1760,15 @@ var View = function(data) {
             }
 
             return {"x":left+(right-left) / 2, "y":top+(bottom - top) / 2}; 
+        },
+        setFocusMaybePosition: function(node, updatehistory) {
+            var thenode = this.tree.lookupNodeById(node);
+            if (thenode == null)
+                this.setFocus(node, updatehistory);
+            else {
+                var node1 = thenode;
+                this.setFocusPosition(node, updatehistory, node1.getX()+this.scrollx, node1.getY()+this.scrolly);
+            }
         },
         setFocus: function(node, updatehistory) {
             this.tree = this.makeTree(node);
@@ -2195,6 +2226,7 @@ var parseBioText = function(text, data, personLinkHandler) {
                     var a = document.createElement('a');
                     a.href = target;
                     a.target="_blank";
+                    a.rel="noopener noreferrer"; //https://medium.com/@jitbit/target-blank-the-most-underestimated-vulnerability-ever-96e328301f4c#.hdenh1ez7
                     a.appendChild(document.createTextNode(linktext));
                     p.appendChild(a);
                 }
@@ -2483,7 +2515,7 @@ var initNarrative = function(data, view) {
                         if (id != last) {
                             narrativebody["data-last_viewed_person"] = id;
                             setHighlight(id);
-                            view.setFocus(id, last == "");
+                            view.setFocusMaybePosition(id, last == "");
                         }
                         break;
                     }
