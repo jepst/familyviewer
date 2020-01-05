@@ -137,13 +137,14 @@ def sort_chrono(lst):
         return dtparse(clean(x[0]))
     for n in lst:
         try:
-            dtparse(clean(n[0]))
+            v = clean(n[0]).strip()
+            if v != "":
+                dtparse(v)
         except Exception as e:
             raise Exception("Can't parse %s as date because %s" %
                 (clean(n[0]),str(e)))
     lst.sort(key=sortkey)
     return lst
-
 
 def sort_birthdays(birthdays):
     birthdays.sort(key=lambda x: dtparse(x[1]))
