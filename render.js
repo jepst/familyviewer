@@ -19,12 +19,12 @@ var loadImage = function(src) {
     var img = new Image();
     img.src = src;
     return img;
-}
+};
 
 var isvisible = function(obj) {
     // http://stackoverflow.com/questions/4795473/check-visibility-of-an-object-with-javascript
     return obj.offsetWidth > 0 && obj.offsetHeight > 0;
-}
+};
 
 var addClass = function(node, className) {
     if (node.classList) {
@@ -43,7 +43,7 @@ var hasClass = function(node, className) {
         var classes = node.className.split(" ");
         return classes.indexOf(classname) >= 0;
     }
-}
+};
 
 var removeClass = function(node, className) {
     if (node.classList) {
@@ -85,7 +85,7 @@ var java_hashcode = function(s){
         hash = hash & hash; // Convert to 32bit integer
     }
     return hash;
-}
+};
 
 
 var resources =
@@ -94,7 +94,7 @@ var resources =
     personImage: loadImage('images/person.png'),
     hiddenParentsAndChildrenImage: loadImage('images/doublearrow.png'),
     hiddenChildrenImage: loadImage('images/downarrow.png'),
-}
+};
 
 var fetchStaticJsonWithLoadingWindow = function(addr, callback, timeout) {
     var loadingwindow = document.getElementById("loadingwindow");
@@ -106,7 +106,7 @@ var fetchStaticJsonWithLoadingWindow = function(addr, callback, timeout) {
         loadingwindow.style.display="none";
         callback(js);
     }, timeout);
-}
+};
 
 var fetchStaticJsonWithLoadingPanel = function(addr, callback, timeout) {
     var myloadingscreen = document.createElement("div");
@@ -124,13 +124,13 @@ var fetchStaticJsonWithLoadingPanel = function(addr, callback, timeout) {
         else
             callback(js);
     }, timeout);
-}
+};
 
 var fetchStaticJsonDelay = function(addr, callback, timeout) {
     setTimeout(function() {
         fetchStaticJson(addr, callback, timeout);
     },3000);
-}
+};
 
 
 var fetchStaticJson = function(addr, callback, timeout) {
@@ -172,7 +172,7 @@ var fetchStaticJson = function(addr, callback, timeout) {
        xhr.overrideMimeType("application/json");
 
     xhr.send(null);
-}
+};
 
 var onDemandLoad = function(data, category, callback) {
     var categories = {
@@ -190,7 +190,7 @@ var onDemandLoad = function(data, category, callback) {
                 displayError("Can't load data from server. Try refreshing the page.", true);
             }
         }, xhrTimeout);
-}
+};
 
 var loadData = function(callback) {
     var files = {
@@ -228,7 +228,7 @@ var loadData = function(callback) {
                 },xhrTimeout);
         })();
     }
-}
+};
 
 var jmap = function(fn, arr) {
     var result = [];
@@ -236,12 +236,12 @@ var jmap = function(fn, arr) {
         result.push(fn(arr[i]));
     }
     return result;
-}
+};
 
 String.prototype.trim = function() 
 {
     return String(this).replace(/^\s+|\s+$/g, '');
-}
+};
 
 Array.prototype.addonce = function(val) {
     for (var i = 0, l=this.length; i < l; i++) {
@@ -249,7 +249,7 @@ Array.prototype.addonce = function(val) {
             return;
     }
     this.push(val);
-}
+};
 
 //    http://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
 Array.prototype.equals = function(array) {
@@ -269,15 +269,15 @@ Array.prototype.equals = function(array) {
         }           
     }       
     return true;
-}
+};
 
 var sortByGender = function(structure, personList) {
     return personList.slice().sort(function(a,b){return -structure[a]["sex"].localeCompare(structure[b]["sex"])});
-}
+};
 
 var displayName = function(n) {
     return n.replace(/\//g,"");
-}
+};
 
 var displaySurname = function(n) {
     var names = n.split(" ");
@@ -294,7 +294,7 @@ var displaySurname = function(n) {
             return surnames.join(" ").replace(/\//g, "");
     }
     return "UNKNOWN";
-}
+};
 
 var flattenTree = function(node) {
     var all = [];
@@ -310,7 +310,7 @@ var flattenTree = function(node) {
     }
     flattenTreeHelper(node);
     return all;
-}
+};
 
 var Layout = function(person, structure, view) {
 /*Based on tree drawing code from here
@@ -578,7 +578,7 @@ var Layout = function(person, structure, view) {
             calculateFinalPositions(this.nodes, 0);
         }
     }
-}
+};
 
 var TextAttr = function(_size, _font, _style, _color) {
 
@@ -626,7 +626,7 @@ var TextAttr = function(_size, _font, _style, _color) {
             view.context.fillStyle = _color;
         },
     }
-}
+};
 
 
 var baseFont = TextAttr(13, "sans-serif", "normal", "#000000");
@@ -679,7 +679,7 @@ var renderText = function(_text, _view, _x, _y, real) {
         }
     };
     return [maxwidth, (y + linemaxheight) - _y];
-}
+};
 
 
 var simpleLine = function(view, ax, ay, bx, by, width, color)
@@ -690,7 +690,7 @@ var simpleLine = function(view, ax, ay, bx, by, width, color)
     view.context.moveTo(ax+view.scrollx,ay+view.scrolly);
     view.context.lineTo(bx+view.scrollx,by+view.scrolly);
     view.context.stroke();
-}
+};
 
 
 
@@ -712,7 +712,7 @@ var drawParentalLine = function(view, parent, child) {
     view.context.lineTo(parentx, horizy);
     view.context.lineTo(parentx, parenty);
     view.context.stroke();
-}
+};
 
 var NodeGroup = function(_nodes) {
     var spousalSpacing = 17;
@@ -897,7 +897,7 @@ var NodeGroup = function(_nodes) {
         }
 
     }
-}
+};
 
 var Node = function(_person) {
 
@@ -1102,7 +1102,7 @@ var Node = function(_person) {
             }
         },
     }
-}
+};
 
 var displayError = function(text, fatal) {
     var msg = document.getElementById("message");
@@ -1110,13 +1110,13 @@ var displayError = function(text, fatal) {
     fadeIn(msg,0.15,"inline-block");
     if (!fatal)
         setTimeout(function(){ fadeOut(msg); }, 3000);
-}
+};
 
 var makeEmpty = function(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }        
-}
+};
 
 var showInfoWindow = function(content) {
     var textInfo = document.getElementById("textinfo");
@@ -1124,7 +1124,7 @@ var showInfoWindow = function(content) {
     textInfo.appendChild(content["text"]);
     textInfo.scrollTop = 0;
     fadeIn(document.getElementById("infowindow"),0.15,"block");
-}
+};
 
 var getPicturesFilename = function(data, picid, isthumb) {
     var prefix = "f_";
@@ -1133,7 +1133,7 @@ var getPicturesFilename = function(data, picid, isthumb) {
     }
     var dir = data["config"]["pictures_prefix"] || "pictures/"
     return dir+prefix + picid + ".jpg";
-}
+};
 
 var makeThumbnailPane = function(view, data, picids) {
     var doPicViewer = function(piclist, picindex) {
@@ -1265,7 +1265,7 @@ var makeThumbnailPane = function(view, data, picids) {
         thumbspane.appendChild(toggle_refs);
     }
     return thumbspane;
-}
+};
 
 var getDetails = function(view, data, person) {
     var structure = data["structure"];
@@ -1481,11 +1481,11 @@ var getDetails = function(view, data, person) {
         content_container.appendChild(extrabuttons[0]["data-mydiv"]);
 
     return {"text":container};
-}
+};
 
 var debug = function(msg) {
     console.log(msg);
-}
+};
 
 var makeNodeText = function(person) {
     var makePlace = function(a) {
@@ -1525,7 +1525,7 @@ var makeNodeText = function(person) {
     if (death)
         result = result.concat([detailFont, "\ndied "+death]);
     return result;
-}
+};
 
 var Tree = function(structure, person_id) {
 
@@ -1573,7 +1573,7 @@ var Tree = function(structure, person_id) {
             recurseDraw(layout.nodes);
         }
     }
-}
+};
 
 var WidgetManager = function() {
 
@@ -1620,7 +1620,7 @@ var WidgetManager = function() {
                 widgets[i].draw(view);
         }
     }
-}
+};
 
 var View = function(data) {
         var structure = data["structure"];
@@ -2117,14 +2117,14 @@ var View = function(data) {
             this.widgets.draw(this);
         },
     }
-}
+};
 
 var getHashString = function() {
     var myhash = window.location.hash;
     if (myhash[0] == "#")
         myhash = myhash.substr(1);
     return decodeURIComponent(myhash);
-}
+};
 
 var QueryString = function () {
   var query_string = {};
@@ -2236,7 +2236,7 @@ var parseBioText = function(text, data, personLinkHandler) {
 
     div.appendChild(p);
     return div;
-}
+};
 
 
 function scrollToY(el, scrollTargetY, speed, easing) {
@@ -2293,7 +2293,7 @@ var showNarrative = function(data, view, narrname) {
         if (cls)
             el.className = cls;
         return el;
-    }
+    };
 
     var personLinkHandler = function(evt) {
         var person_id = evt.currentTarget["data-person_id"];
@@ -2310,7 +2310,7 @@ var showNarrative = function(data, view, narrname) {
 
         // Linked person isn't in current narrative, so just show them in the tree
         view.setFocus(person_id, false);
-    }
+    };
 
     var relationshipName = function(distance, sex) {
         if (distance == 0)
@@ -2329,7 +2329,7 @@ var showNarrative = function(data, view, narrname) {
             count++;
         }
         return result;
-    }
+    };
 
     var makeSection = function(generation, narrative_indv, person, narrtext) {
         var generation_data = narrative_indv["gen"];
@@ -2394,7 +2394,7 @@ var showNarrative = function(data, view, narrname) {
         }
 
         return personDiv;
-    }
+    };
 
     var narr = null;
     for (var i=0; i<data["narratives"]["spec"].length; i++) {
@@ -2455,7 +2455,7 @@ var showNarrative = function(data, view, narrname) {
     narrativebody["data-last_viewed_person"] = "";
     narrativebody.scrollTop=0;
 
-}
+};
 
 var initNarrative = function(data, view) {
     document.getElementById("closenarrativewindow").onclick = function(evt) {
@@ -2526,7 +2526,7 @@ var initNarrative = function(data, view) {
 
 
     });
-}
+};
 
 var initSearch = function(data, view) {
     var structure = data["structure"];
@@ -2589,7 +2589,7 @@ var initSearch = function(data, view) {
                 name.appendChild(a);
                 div_names.appendChild(name);
 
-            }
+            };
 
             for (var i=0; i<birthdays.length; i++)
             {
@@ -2644,7 +2644,7 @@ var initSearch = function(data, view) {
                 name.appendChild(a);
                 div_names.appendChild(name);
 
-            }
+            };
 
             for (var i=0; i<data["structure_raw"].length; i++)
             {
@@ -2717,7 +2717,7 @@ var initSearch = function(data, view) {
                 return;
             }
         displayError("Sorry, \""+text+"\" does not exist in this tree. Please note that you must enter the name exactly.", false);
-    }
+    };
     var searchtext = document.getElementById("searchtext");
     var searchlist = document.getElementById("searchlist");
     searchtext.addEventListener("focus",function(evt){
@@ -2731,7 +2731,7 @@ var initSearch = function(data, view) {
     var searchResultEventListener = function(evt) {
         view.setFocus(evt.currentTarget["data-search_id"], true);
         searchtext.value = displayName(structure[evt.currentTarget["data-search_id"]]["name"]);
-    }
+    };
     searchtext.addEventListener("input",function(evt) {
         while (searchlist.firstChild) {
             searchlist.removeChild(searchlist.firstChild);
@@ -2775,7 +2775,7 @@ var initSearch = function(data, view) {
             searchlist.style.display="none";  
     })
 
-}
+};
 
 var browserOkay = function() {
     var okay = true;
@@ -2800,7 +2800,7 @@ var browserOkay = function() {
         okay = false;
     }
     return okay;
-}
+};
 
 var main = function() {
     var loadingwindow = document.getElementById("loadingwindow");
@@ -2827,4 +2827,4 @@ var main = function() {
         }
 
     });
-}
+};
