@@ -118,7 +118,7 @@ class Selector(object):
         return Selector(self.ps,[child for child in self.recs if 'children' in child])
 
     def get_attr(self, *names):
-        return [subs['value'] for child in self.recs for subs in child['children'] if subs['tag'] in names]
+        return [subs['value'] for child in self.recs for subs in child.get('children',[]) if subs['tag'] in names]
 
     def sub(self, name):
         return Selector(self.ps,[sub for child in self.recs if 'children' in child for sub in child['children'] if sub['tag']==name])
